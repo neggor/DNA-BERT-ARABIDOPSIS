@@ -1,0 +1,6 @@
+# TODO
+# 1- Programatically download arabidopsis data.
+# 2- Process it -> Get promoter regions, get it in a tidy format...
+# 3- DNA-BERT Stuff, use pre-trained model, train from scratch...
+# 4- Download RNA-seq data
+# 5- Fit a regression problem
