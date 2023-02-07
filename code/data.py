@@ -12,10 +12,10 @@ import subprocess
 
  
 ## Some trial
-fastq_folder = 'data/version2.5.2019-10-09/An-1.chr.all.v2.0.fasta'
+fastagz_file = 'data/version2.5.2019-10-09/An-1.chr.all.v2.0.fasta.gz'
 
 
-def parse_raw_data(raw_data_path):
+def parse_raw_data(raw_data_file):
     '''
     Read raw .fasta file.
 
@@ -26,8 +26,10 @@ def parse_raw_data(raw_data_path):
     chromosome_list -- list of str, one entry per chromosome.
     '''
     chromosome_list = []
-    for record in SeqIO.parse(raw_data_path, "fasta"):
-        chromosome_list.append(str(record.seq))
+
+    with gzip.open(raw_data_file, "rt") as handle:
+        for record in SeqIO.parse(handle, "fasta"):
+            chromosome_list.append(str(record.seq))
     
     return chromosome_list
 
@@ -46,6 +48,6 @@ def seq2kmer(seq, k):
     kmers = " ".join(kmer)
     return kmers
 
-my_chromosome_list = parse_raw_data(fastq_folder)
+my_chromosome_list = parse_raw_data(fastagz_file)
 
-#print(seq2kmer(my_chromosome_list[0], 5))
+print(seq2kmer(my_chromosome_list[0], 5))
