@@ -9,8 +9,9 @@ import wget
 import gzip
 import shutil
 import subprocess
-
- 
+from tokenizers import Tokenizer
+from tokenizers.models import BPE
+import io, csv
 ## Some trial
 fastagz_file = 'data/version2.5.2019-10-09/An-1.chr.all.v2.0.fasta.gz'
 
@@ -23,15 +24,16 @@ def parse_raw_data(raw_data_file):
     raw_data_path -- str, path to data file.
 
     Returns:
-    chromosome_list -- list of str, one entry per chromosome.
+    chromosome_list -- All the sequence put together
     '''
     chromosome_list = []
 
     with gzip.open(raw_data_file, "rt") as handle:
         for record in SeqIO.parse(handle, "fasta"):
-            chromosome_list.append(str(record.seq))
-    
-    return chromosome_list
+            chromosome_list.append(str(record.seq).replace('N', '').upper()) # Just omit N as if it were not there and put all uper case
+            if 'chr' not in record.id:
+                continue
+    return ''.join(chromosome_list)
 
 def seq2kmer(seq, k):
     """
@@ -48,6 +50,15 @@ def seq2kmer(seq, k):
     kmers = " ".join(kmer)
     return kmers
 
-my_chromosome_list = parse_raw_data(fastagz_file)
+def output_data(kmer_sequence: str):
+    with open('./data/train.txt', 'w') as f:
+        f.write(kmer_sequence)
 
-print(seq2kmer(my_chromosome_list[0], 5))
+
+def BPE():
+    pass
+
+my_sequence = parse_raw_data(fastagz_file)
+
+
+output_data(seq2kmer(my_sequence, 5))
