@@ -10,27 +10,7 @@ import gzip
 import shutil
 import subprocess
 
-def download_raw_data():
-    os.mkdir('./data')
-    data_url = 'https://1001genomes.org/data/MPIPZ/MPIPZJiao2020/releases/current/full_set/AMPRIL.genomes.version2.5.2019-10-09.tar.gz'
-    wget.download(data_url, out = './data')
-    exit()
-    file = gzip.open('./data/AMPRIL.genomes.version2.5.2019-10-09.tar.gz')
-    shutil.copyfile(file, './data')
-   #os.remove(file)
-    exit()
-    data_folder = Path('./data')
-    for file in data_folder.iterdir():
-        if str(file).endswith('gz'):
-            gzip.decompress(file, 'wb')
-            os.remove(file)
-    
-
-download_raw_data()    
-
-
-
-
+ 
 ## Some trial
 fastq_folder = 'data/version2.5.2019-10-09/An-1.chr.all.v2.0.fasta'
 
